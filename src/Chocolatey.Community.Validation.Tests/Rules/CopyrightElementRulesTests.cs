@@ -12,7 +12,6 @@ namespace Chocolatey.Community.Validation.Tests.Rules
     [Category("Requirements")]
     public class CopyrightElementRulesTests : RuleTestBase<CopyrightElementRules>
     {
-        [TestCaseSource(nameof(EmptyTestValues))]
         [TestCase("a")]
         [TestCase("abc")]
         [TestCase("  uba   ")]
@@ -26,6 +25,14 @@ namespace Chocolatey.Community.Validation.Tests.Rules
         [TestCase("2024")]
         [TestCase("Copyright Someone")]
         public async Task ShouldNotFlagWhenCopyrightIs4OrMoreCharacters(string copyright)
+        {
+            var testContent = GetContent(copyright);
+
+            await VerifyEmptyResults(testContent);
+        }
+
+        [TestCaseSource(nameof(EmptyTestValues))]
+        public async Task ShouldNotFlagWhenCopyrightIsEmpty(string? copyright)
         {
             var testContent = GetContent(copyright);
 

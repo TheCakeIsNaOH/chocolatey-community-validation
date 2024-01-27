@@ -19,9 +19,16 @@ namespace Chocolatey.Community.Validation.Rules
                 yield break;
             }
 
-            var copyright = reader.GetCopyright()?.Trim() ?? string.Empty;
+            var copyright = reader.GetCopyright() ?? string.Empty;
 
-            if (copyright.Length < 4)
+            if (copyright.Length == 0)
+            {
+                yield break;
+            }
+
+            var trimmedCopyright = copyright.Trim();
+
+            if (trimmedCopyright.Length < 4)
             {
                 yield return GetRule("CPMR0001");
             }
